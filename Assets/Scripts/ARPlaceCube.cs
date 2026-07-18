@@ -1,56 +1,92 @@
-using NUnit.Framework;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 
 public class ARPlaceCube : MonoBehaviour
 {
-
     [SerializeField] private ARRaycastManager raycastManager;
-    bool isPlacing = false;
+    [SerializeField] private GameObject stagePrefab;
 
+    private GameObject placedStage;
 
-    // Update is called once per frame
-    void Update()
+    private static readonly List<ARRaycastHit> rayHits = new();
+
+    private void Update()
     {
-        if (!raycastManager) return;
-
-        if ((Input.touchCount > 0 && Input.GetTouch(index:0).phase == TouchPhase.Began || Input.GetMouseButtonDown(0)) && !isPlacing)
+        if (raycastManager == null)
         {
-            isPlacing = true;
+            return;
+        }
 
-            if (Input.touchCount > 0)
+        // Es existiert bereits eine Bühne.
+        if (placedStage != null)
+        {
+            return;
+        }
+
+        // Touch-Eingabe auf einem Smartphone oder Tablet
+        if (Input.touchCount > 0 &&
+            Input.GetTouch(0).phase == TouchPhase.Began)
+        {
+            Touch touch = Input.GetTouch(0);
+
+            // Verhindert Platzierung beim Drücken eines UI-Buttons.
+            if (EventSystem.current != null &&
+                EventSystem.current.IsPointerOverGameObject(touch.fingerId))
             {
-                PlaceObject(Input.GetTouch(index: 0).position);
+                return;
             }
-            else
+
+            PlaceStage(touch.position);
+        }
+        // Maus-Eingabe zum Testen im Editor
+        else if (Input.GetMouseButtonDown(0))
+        {
+            // Verhindert Platzierung beim Anklicken eines UI-Buttons.
+            if (EventSystem.current != null &&
+                EventSystem.current.IsPointerOverGameObject())
             {
-                PlaceObject(Input.mousePosition);
+                return;
             }
-                
+
+            PlaceStage(Input.mousePosition);
         }
     }
 
-    void PlaceObject(Vector2 touchPosition)
+    private void PlaceStage(Vector2 screenPosition)
     {
-        var rayHits = new List<ARRaycastHit>();
-        raycastManager.Raycast(screenPoint: touchPosition, hitResults: rayHits, TrackableType.AllTypes);
+        rayHits.Clear();
 
-        if (rayHits.Count > 0)
+        bool hitDetected = raycastManager.Raycast(
+            screenPosition,
+            rayHits,
+            TrackableType.PlaneWithinPolygon
+        );
+
+        if (!hitDetected || rayHits.Count == 0)
         {
-            Vector3 hitPosePosition = rayHits[0].pose.position;
-            Quaternion hitPoseRotation = rayHits[0].pose.rotation;
-            Instantiate(raycastManager.raycastPrefab, hitPosePosition, hitPoseRotation);
+            return;
         }
 
-        StartCoroutine(routine: setIsPlacingToFalseWithDelay());
+        Pose hitPose = rayHits[0].pose;
+
+        placedStage = Instantiate(
+            stagePrefab,
+            hitPose.position,
+            hitPose.rotation
+        );
     }
 
-    IEnumerator setIsPlacingToFalseWithDelay()
+    public void ResetStage()
     {
-        yield return new WaitForSeconds(0.25f);
-        isPlacing=false;
+        if (placedStage == null)
+        {
+            return;
+        }
+
+        Destroy(placedStage);
+        placedStage = null;
     }
 }
