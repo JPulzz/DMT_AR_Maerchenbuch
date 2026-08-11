@@ -4,12 +4,14 @@ using UnityEngine.EventSystems;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 
-public class ARPlaceCube : MonoBehaviour
+public class ARPlacement : MonoBehaviour
 {
     [SerializeField] private ARRaycastManager raycastManager;
     [SerializeField] private GameObject stagePrefab;
+    [SerializeField] private ARAnchorManager anchorManager;
 
     private GameObject placedStage;
+    private ARAnchor placedAnchor;
 
     private static readonly List<ARRaycastHit> rayHits = new();
 
@@ -70,23 +72,47 @@ public class ARPlaceCube : MonoBehaviour
             return;
         }
 
-        Pose hitPose = rayHits[0].pose;
+        ARRaycastHit hit = rayHits[0];
 
-        placedStage = Instantiate(
-            stagePrefab,
-            hitPose.position,
-            hitPose.rotation
-        );
-    }
+        ARPlane hitPlane = hit.trackable as ARPlane;
 
-    public void ResetStage()
-    {
-        if (placedStage == null)
+        if (hitPlane == null)
         {
             return;
         }
 
-        Destroy(placedStage);
-        placedStage = null;
+        placedAnchor = anchorManager.AttachAnchor(
+            hitPlane,
+            hit.pose
+        );
+
+        if (placedAnchor == null)
+        {
+            Debug.LogWarning("Anchor could not be created.");
+            return;
+        }
+
+        placedStage = Instantiate(
+            stagePrefab,
+            placedAnchor.transform
+        );
+
+        placedStage.transform.localPosition = Vector3.zero;
+        placedStage.transform.localRotation = Quaternion.identity;
+    }
+
+    public void ResetStage()
+    {
+        if (placedStage != null)
+        {
+            Destroy(placedStage);
+            placedStage = null;
+        }
+
+        if (placedAnchor != null)
+        {
+            Destroy(placedAnchor.gameObject);
+            placedAnchor = null;
+        }
     }
 }
