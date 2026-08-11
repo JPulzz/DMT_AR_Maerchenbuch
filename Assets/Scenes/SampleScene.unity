@@ -2872,13 +2872,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ARPlaceCube
   raycastManager: {fileID: 1982748496}
   anchorManager: {fileID: 1982748499}
-  stagePrefab: {fileID: 4433310979777951596, guid: a9d47051873cc1349a178cc74e70815d, type: 3}
+  stagePrefab: {fileID: 7340151501916028452, guid: a5073fc1934b27d4cb4a8f02d20efa70, type: 3}
   arCamera: {fileID: 287879744}
   lockButtonText: {fileID: 44278610}
+  planeManager: {fileID: 1982748497}
   rotationSlider: {fileID: 1859930256}
   scaleSlider: {fileID: 1879419609}
   minScale: 0.5
   maxScale: 1.5
+  minimumPlaneWidth: 0.6
+  minimumPlaneDepth: 0.6
 --- !u!114 &1982748499
 MonoBehaviour:
   m_ObjectHideFlags: 0

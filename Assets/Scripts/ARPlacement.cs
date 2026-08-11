@@ -13,12 +13,16 @@ public class ARPlacement : MonoBehaviour
     [SerializeField] private GameObject stagePrefab;
     [SerializeField] private Camera arCamera;
     [SerializeField] private TMP_Text lockButtonText;
+    [SerializeField] private ARPlaneManager planeManager;
 
     [SerializeField] private Slider rotationSlider;
     [SerializeField] private Slider scaleSlider;
 
     [SerializeField] private float minScale = 0.5f;
     [SerializeField] private float maxScale = 1.5f;
+
+    [SerializeField] private float minimumPlaneWidth = 0.6f;
+    [SerializeField] private float minimumPlaneDepth = 0.6f;
 
     private GameObject placedStage;
     private ARAnchor placedAnchor;
@@ -28,6 +32,12 @@ public class ARPlacement : MonoBehaviour
 
     private ARPlane currentDragPlane;
     private Pose lastValidDragPose;
+
+    private Vector3 baseStageScale;
+    private float baseStageWidth;
+    private float baseStageDepth;
+
+    private ARPlane placementPlane;
 
     private static readonly List<ARRaycastHit> rayHits = new();
 
@@ -123,6 +133,12 @@ public class ARPlacement : MonoBehaviour
             return;
         }
 
+        if (!IsPlaneLargeEnough(hitPlane))
+        {
+            Debug.Log("Detected plane is too small for the stage.");
+            return;
+        }
+
         placedAnchor = anchorManager.AttachAnchor(
             hitPlane,
             hit.pose
@@ -134,6 +150,8 @@ public class ARPlacement : MonoBehaviour
             return;
         }
 
+        placementPlane = hitPlane;
+
         placedStage = Instantiate(
             stagePrefab,
             placedAnchor.transform
@@ -141,6 +159,28 @@ public class ARPlacement : MonoBehaviour
 
         placedStage.transform.localPosition = Vector3.zero;
         placedStage.transform.localRotation = Quaternion.identity;
+
+        baseStageScale = placedStage.transform.localScale;
+
+        Bounds stageBounds = GetStageBounds(placedStage);
+
+        baseStageWidth = stageBounds.size.x;
+        baseStageDepth = stageBounds.size.z;
+
+        Debug.Log(
+            $"Base Stage Size - Width: {baseStageWidth}, Depth: {baseStageDepth}"
+        );
+
+        float calculatedMaxScale = CalculateMaxScale(hitPlane);
+
+        maxScale = calculatedMaxScale;
+
+        if (scaleSlider != null)
+        {
+            scaleSlider.minValue = minScale;
+            scaleSlider.maxValue = maxScale;
+            scaleSlider.SetValueWithoutNotify(1f);
+        }
     }
 
     private bool TryGetPlaneHit(
@@ -207,6 +247,11 @@ public class ARPlacement : MonoBehaviour
                 screenPosition,
                 out ARRaycastHit hit,
                 out ARPlane hitPlane))
+        {
+            return;
+        }
+
+        if (hitPlane != placementPlane)
         {
             return;
         }
@@ -293,6 +338,8 @@ public class ARPlacement : MonoBehaviour
 
         isStageLocked = !isStageLocked;
 
+        SetPlaneDetectionActive(!isStageLocked);
+
         if (rotationSlider != null)
         {
             rotationSlider.interactable = !isStageLocked;
@@ -354,6 +401,10 @@ public class ARPlacement : MonoBehaviour
         {
             scaleSlider.interactable = true;
         }
+
+        placementPlane = null;
+
+        SetPlaneDetectionActive(true);
     }
 
     public void SetStageRotation(float yRotation)
@@ -363,8 +414,7 @@ public class ARPlacement : MonoBehaviour
             return;
         }
 
-        placedStage.transform.localRotation =
-            Quaternion.Euler(0f, yRotation, 0f);
+        placedStage.transform.localRotation = Quaternion.Euler(0f, yRotation, 0f);
     }
 
 
@@ -377,7 +427,57 @@ public class ARPlacement : MonoBehaviour
 
         float clampedScale = Mathf.Clamp(scale, minScale, maxScale);
 
-        placedStage.transform.localScale =
-            Vector3.one * clampedScale;
+        placedStage.transform.localScale = baseStageScale * clampedScale;
+    }
+
+    private bool IsPlaneLargeEnough(ARPlane plane)
+    {
+        return plane.size.x >= minimumPlaneWidth &&
+               plane.size.y >= minimumPlaneDepth;
+    }
+
+    private Bounds GetStageBounds(GameObject stage)
+    {
+        Renderer[] renderers = stage.GetComponentsInChildren<Renderer>();
+
+        if (renderers.Length == 0)
+        {
+            return new Bounds(stage.transform.position, Vector3.zero);
+        }
+
+        Bounds bounds = renderers[0].bounds;
+
+        for (int i = 1; i < renderers.Length; i++)
+        {
+            bounds.Encapsulate(renderers[i].bounds);
+        }
+
+        return bounds;
+    }
+
+    private float CalculateMaxScale(ARPlane plane)
+    {
+        float usablePlaneWidth = plane.size.x * 0.85f;
+        float usablePlaneDepth = plane.size.y * 0.85f;
+
+        float maxScaleFromWidth = usablePlaneWidth / baseStageWidth;
+        float maxScaleFromDepth = usablePlaneDepth / baseStageDepth;
+
+        return Mathf.Min(maxScaleFromWidth, maxScaleFromDepth);
+    }
+
+    private void SetPlaneDetectionActive(bool isActive)
+    {
+        if (planeManager == null)
+        {
+            return;
+        }
+
+        planeManager.enabled = isActive;
+
+        foreach (ARPlane plane in planeManager.trackables)
+        {
+            plane.gameObject.SetActive(isActive);
+        }
     }
 }
