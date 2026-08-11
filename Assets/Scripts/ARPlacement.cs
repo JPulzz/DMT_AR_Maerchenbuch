@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
+using TMPro;
 
 public class ARPlacement : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class ARPlacement : MonoBehaviour
     [SerializeField] private ARAnchorManager anchorManager;
     [SerializeField] private GameObject stagePrefab;
     [SerializeField] private Camera arCamera;
+    [SerializeField] private TMP_Text lockButtonText;
 
     private GameObject placedStage;
     private ARAnchor placedAnchor;
@@ -275,14 +277,21 @@ public class ARPlacement : MonoBehaviour
         currentDragPlane = null;
     }
 
-    public void LockStage()
+    public void ToggleStageLock()
     {
-        isStageLocked = true;
-    }
+        if (placedStage == null)
+        {
+            return;
+        }
 
-    public void UnlockStage()
-    {
-        isStageLocked = false;
+        isStageLocked = !isStageLocked;
+
+        if (lockButtonText != null)
+        {
+            lockButtonText.text = isStageLocked
+                ? "Unlock Stage"
+                : "Lock Stage";
+        }
     }
 
     public void ResetStage()
@@ -303,5 +312,10 @@ public class ARPlacement : MonoBehaviour
         }
 
         isStageLocked = false;
+
+        if (lockButtonText != null)
+        {
+            lockButtonText.text = "Lock Stage";
+        }
     }
 }
