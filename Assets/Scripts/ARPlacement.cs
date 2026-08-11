@@ -4,6 +4,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 using TMPro;
+using UnityEngine.UI;
 
 public class ARPlacement : MonoBehaviour
 {
@@ -12,6 +13,12 @@ public class ARPlacement : MonoBehaviour
     [SerializeField] private GameObject stagePrefab;
     [SerializeField] private Camera arCamera;
     [SerializeField] private TMP_Text lockButtonText;
+
+    [SerializeField] private Slider rotationSlider;
+    [SerializeField] private Slider scaleSlider;
+
+    [SerializeField] private float minScale = 0.5f;
+    [SerializeField] private float maxScale = 1.5f;
 
     private GameObject placedStage;
     private ARAnchor placedAnchor;
@@ -286,6 +293,16 @@ public class ARPlacement : MonoBehaviour
 
         isStageLocked = !isStageLocked;
 
+        if (rotationSlider != null)
+        {
+            rotationSlider.interactable = !isStageLocked;
+        }
+
+        if (scaleSlider != null)
+        {
+            scaleSlider.interactable = !isStageLocked;
+        }
+
         if (lockButtonText != null)
         {
             lockButtonText.text = isStageLocked
@@ -317,5 +334,50 @@ public class ARPlacement : MonoBehaviour
         {
             lockButtonText.text = "Lock Stage";
         }
+
+        if (rotationSlider != null)
+        {
+            rotationSlider.SetValueWithoutNotify(0f);
+        }
+
+        if (scaleSlider != null)
+        {
+            scaleSlider.SetValueWithoutNotify(1f);
+        }
+
+        if (rotationSlider != null)
+        {
+            rotationSlider.interactable = true;
+        }
+
+        if (scaleSlider != null)
+        {
+            scaleSlider.interactable = true;
+        }
+    }
+
+    public void SetStageRotation(float yRotation)
+    {
+        if (placedStage == null || isStageLocked)
+        {
+            return;
+        }
+
+        placedStage.transform.localRotation =
+            Quaternion.Euler(0f, yRotation, 0f);
+    }
+
+
+    public void SetStageScale(float scale)
+    {
+        if (placedStage == null || isStageLocked)
+        {
+            return;
+        }
+
+        float clampedScale = Mathf.Clamp(scale, minScale, maxScale);
+
+        placedStage.transform.localScale =
+            Vector3.one * clampedScale;
     }
 }
