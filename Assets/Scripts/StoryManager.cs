@@ -8,8 +8,8 @@ public class StoryManager : MonoBehaviour
         FoxApproaches,
         FoxFlattersCrow,
         PlayerDecision,
-        CrowKeepsCheese,
-        CrowDropsCheese,
+        RavenKeepsCheese,
+        RavenDropsCheese,
         Ending
     }
 
@@ -24,14 +24,14 @@ public class StoryManager : MonoBehaviour
         Debug.Log("Story state changed to: " + currentState);
     }
 
-    public void ChooseWarnCrow()
+    public void ChooseWarnRaven()
     {
-        SetState(StoryState.CrowDropsCheese);
+        SetState(StoryState.RavenKeepsCheese);
     }
 
     public void ChooseIgnoreFox()
     {
-        SetState(StoryState.CrowKeepsCheese);
+        SetState(StoryState.RavenDropsCheese);
     }
 
     public void ResetStory()

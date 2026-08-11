@@ -1119,7 +1119,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 68628460}
         m_TargetAssemblyTypeName: StoryManager, Assembly-CSharp
-        m_MethodName: ChooseWarnCrow
+        m_MethodName: ChooseWarnRaven
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
