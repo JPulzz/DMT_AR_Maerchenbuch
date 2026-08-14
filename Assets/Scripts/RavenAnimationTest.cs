@@ -13,12 +13,4 @@ public class RavenAnimationTest : MonoBehaviour
     {
         ravenAnimator.SetTrigger("React");
     }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            TriggerReaction();
-        }
-    }
 }

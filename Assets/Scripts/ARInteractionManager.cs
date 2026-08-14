@@ -5,6 +5,7 @@ public class ARInteractionManager : MonoBehaviour
 {
     [SerializeField] private Camera arCamera;
     [SerializeField] private float ravenTriggerDistance = 0.6f;
+    [SerializeField] private StoryManager storyManager;
 
     private RavenAnimationTest ravenAnimation;
     private bool ravenInRange = false;
@@ -47,26 +48,19 @@ public class ARInteractionManager : MonoBehaviour
 
     private void TryInteract(Vector2 screenPosition)
     {
-        Debug.Log("Interaction input detected");
-
         Ray ray = arCamera.ScreenPointToRay(screenPosition);
 
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            Debug.Log("Hit: " + hit.collider.gameObject.name);
-
             RavenAnimationTest raven =
                 hit.collider.GetComponentInParent<RavenAnimationTest>();
 
-            if (raven != null)
+            if (raven != null &&
+                storyManager.CurrentState == StoryManager.StoryState.PlayerDecision)
             {
-                Debug.Log("Raven found - trigger animation");
                 raven.TriggerReaction();
+                storyManager.ChooseDropCheese();
             }
-        }
-        else
-        {
-            Debug.Log("Physics.Raycast hit nothing");
         }
     }
     private void CheckRavenDistance()
@@ -88,8 +82,12 @@ public class ARInteractionManager : MonoBehaviour
 
         if (distance <= ravenTriggerDistance && !ravenInRange)
         {
-            ravenInRange = true;
-            ravenAnimation.TriggerReaction();
+            if (storyManager.CurrentState == StoryManager.StoryState.PlayerDecision)
+            {
+                ravenInRange = true;
+                ravenAnimation.TriggerReaction();
+                storyManager.ChooseKeepCheese();
+            }
         }
         else if (distance > ravenTriggerDistance)
         {
