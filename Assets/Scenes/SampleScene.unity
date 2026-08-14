@@ -2785,6 +2785,7 @@ GameObject:
   - component: {fileID: 1982748496}
   - component: {fileID: 1982748498}
   - component: {fileID: 1982748499}
+  - component: {fileID: 1982748500}
   m_Layer: 0
   m_Name: XR Origin
   m_TagString: Untagged
@@ -2872,12 +2873,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ARPlaceCube
   raycastManager: {fileID: 1982748496}
   anchorManager: {fileID: 1982748499}
-  stagePrefab: {fileID: 7340151501916028452, guid: a5073fc1934b27d4cb4a8f02d20efa70, type: 3}
+  stagePrefab: {fileID: 2095679784581483675, guid: 890c3f7257ca89345aa62b32b1c1f5a3, type: 3}
   arCamera: {fileID: 287879744}
   lockButtonText: {fileID: 44278610}
   planeManager: {fileID: 1982748497}
   rotationSlider: {fileID: 1859930256}
   scaleSlider: {fileID: 1879419609}
+  baseStageWidth: 0.4
+  baseStageDepth: 0.4
   minScale: 0.5
   maxScale: 1.5
   minimumPlaneWidth: 0.6
@@ -2898,6 +2901,19 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_AnchorPrefab: {fileID: 0}
+--- !u!114 &1982748500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1982748493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f14145caf67b9f1489614cef019a8fd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ARInteractionManager
+  arCamera: {fileID: 287879744}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -18,6 +18,9 @@ public class ARPlacement : MonoBehaviour
     [SerializeField] private Slider rotationSlider;
     [SerializeField] private Slider scaleSlider;
 
+    [SerializeField] private float baseStageWidth = 0.7f;
+    [SerializeField] private float baseStageDepth = 0.5f;
+
     [SerializeField] private float minScale = 0.5f;
     [SerializeField] private float maxScale = 1.5f;
 
@@ -34,8 +37,6 @@ public class ARPlacement : MonoBehaviour
     private Pose lastValidDragPose;
 
     private Vector3 baseStageScale;
-    private float baseStageWidth;
-    private float baseStageDepth;
 
     private ARPlane placementPlane;
 
@@ -161,15 +162,6 @@ public class ARPlacement : MonoBehaviour
         placedStage.transform.localRotation = Quaternion.identity;
 
         baseStageScale = placedStage.transform.localScale;
-
-        Bounds stageBounds = GetStageBounds(placedStage);
-
-        baseStageWidth = stageBounds.size.x;
-        baseStageDepth = stageBounds.size.z;
-
-        Debug.Log(
-            $"Base Stage Size - Width: {baseStageWidth}, Depth: {baseStageDepth}"
-        );
 
         float calculatedMaxScale = CalculateMaxScale(hitPlane);
 
