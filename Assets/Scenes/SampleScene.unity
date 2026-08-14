@@ -2914,6 +2914,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ARInteractionManager
   arCamera: {fileID: 287879744}
+  ravenTriggerDistance: 0.6
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
