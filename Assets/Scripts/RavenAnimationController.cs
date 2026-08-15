@@ -24,15 +24,9 @@ public class RavenAnimationController : MonoBehaviour
         ravenAnimator.SetTrigger("DropCheese");
     }
 
-    private void Update()
+    public void PlayKeepCheese()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-            PlayTalk();
-
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-            PlayFlattered();
-
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-            PlayDropCheese();
+        ravenAnimator.SetTrigger("KeepCheese");
     }
+
 }

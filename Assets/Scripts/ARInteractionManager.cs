@@ -85,6 +85,7 @@ public class ARInteractionManager : MonoBehaviour
             if (storyManager.CurrentState == StoryManager.StoryState.PlayerDecision)
             {
                 ravenInRange = true;
+                ravenAnimation.PlayKeepCheese();
                 storyManager.ChooseKeepCheese();
             }
         }

@@ -14,6 +14,7 @@ public class ARPlacement : MonoBehaviour
     [SerializeField] private Camera arCamera;
     [SerializeField] private TMP_Text lockButtonText;
     [SerializeField] private ARPlaneManager planeManager;
+    [SerializeField] private StoryManager storyManager;
 
     [SerializeField] private Slider rotationSlider;
     [SerializeField] private Slider scaleSlider;
@@ -331,6 +332,11 @@ public class ARPlacement : MonoBehaviour
         isStageLocked = !isStageLocked;
 
         SetPlaneDetectionActive(!isStageLocked);
+
+        if (isStageLocked)
+        {
+            storyManager.StartStory();
+        }
 
         if (rotationSlider != null)
         {
