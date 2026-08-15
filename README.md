@@ -43,8 +43,8 @@ Das Projekt verbindet Augmented Reality mit 3D-Charakteranimation und einer zust
 - Käse-Interaktion
 
 ## Mitwirkende
-- @JPulse - AR-Platzierung, Interaktionssystem, Story-Integration, Raben-Animationen und technische Integration
-- @Amer21 - Rabenmodell
+- @JPulzz - AR-Platzierung, Interaktionssystem, Story-Integration, Raben-Animationen und technische Integration
+- @Amer21-ta - Rabenmodell
 
 ## Assets und externe Ressourcen
 - Es wurden keine externen Assets verwendet.
