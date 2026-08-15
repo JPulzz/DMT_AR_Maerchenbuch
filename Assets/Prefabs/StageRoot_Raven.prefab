@@ -186,7 +186,7 @@ Transform:
   m_GameObject: {fileID: -516098083770646512}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0.000000029802322, y: 0.000000044703484, z: 0}
+  m_LocalPosition: {x: 0.000000029802322, y: -7.2, z: 0}
   m_LocalScale: {x: 100, y: 99.999985, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -308,8 +308,8 @@ GameObject:
   m_Component:
   - component: {fileID: -8679921383154817045}
   - component: {fileID: 5866666021909216657}
-  - component: {fileID: 8105889402460058162}
   - component: {fileID: 1803143108908364272}
+  - component: {fileID: 1681591941552389951}
   m_Layer: 0
   m_Name: Rabe_Animation_Test
   m_TagString: Untagged
@@ -326,8 +326,8 @@ Transform:
   m_GameObject: {fileID: 919132149155446097}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.97140425, z: 0, w: 0.2374317}
-  m_LocalPosition: {x: 0.347, y: 1.241, z: 0.337}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
+  m_LocalPosition: {x: 0.1334, y: 0.427, z: 0.1323}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8879528566716807029}
@@ -356,18 +356,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &8105889402460058162
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132149155446097}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5152fd7ef9b95f40a458a6a7d6d1f67, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RavenAnimationTest
 --- !u!65 &1803143108908364272
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -389,6 +377,18 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2, y: 2, z: 2}
   m_Center: {x: 0, y: 1.52, z: 0}
+--- !u!114 &1681591941552389951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132149155446097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc6764381ebb88e4ea5a476db9fa9b4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RavenAnimationController
 --- !u!1 &1221193091072135242
 GameObject:
   m_ObjectHideFlags: 0
@@ -417,8 +417,8 @@ Transform:
   m_GameObject: {fileID: 1221193091072135242}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.3, y: 0.7, z: 0.3}
-  m_LocalScale: {x: 0.08, y: 0.6, z: 0.08}
+  m_LocalPosition: {x: 0.11, y: 0.25, z: 0.13}
+  m_LocalScale: {x: 0.08, y: 0.2, z: 0.08}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5121759027592302713}
@@ -530,13 +530,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1279989911422183233}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0.3, y: 0.3, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalRotation: {x: 0.67566603, y: -0.20850763, z: 0.20850763, w: 0.67566603}
+  m_LocalPosition: {x: -0.066, y: 0.1336, z: 0}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5121759027592302713}
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: -34.3, z: 0}
 --- !u!33 &6528982222805453058
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -643,7 +643,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 909.6166, y: 426.58112, z: 103.54352}
-  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3418640700387216727}
@@ -841,7 +841,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 0.1, z: 1}
+  m_LocalScale: {x: 0.4, y: 0.1, z: 0.4}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5121759027592302713}
@@ -922,5 +922,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.4, y: 0.4, z: 0.4}
   m_Center: {x: 0, y: 0, z: 0}

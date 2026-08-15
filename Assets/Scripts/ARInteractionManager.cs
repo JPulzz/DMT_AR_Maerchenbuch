@@ -7,7 +7,7 @@ public class ARInteractionManager : MonoBehaviour
     [SerializeField] private float ravenTriggerDistance = 0.6f;
     [SerializeField] private StoryManager storyManager;
 
-    private RavenAnimationTest ravenAnimation;
+    private RavenAnimationController ravenAnimation;
     private bool ravenInRange = false;
 
     private void Update()
@@ -52,13 +52,13 @@ public class ARInteractionManager : MonoBehaviour
 
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            RavenAnimationTest raven =
-                hit.collider.GetComponentInParent<RavenAnimationTest>();
+            RavenAnimationController raven =
+                hit.collider.GetComponentInParent<RavenAnimationController>();
 
             if (raven != null &&
-                storyManager.CurrentState == StoryManager.StoryState.PlayerDecision)
+             storyManager.CurrentState == StoryManager.StoryState.PlayerDecision)
             {
-                raven.TriggerReaction();
+                raven.PlayDropCheese();
                 storyManager.ChooseDropCheese();
             }
         }
@@ -67,7 +67,7 @@ public class ARInteractionManager : MonoBehaviour
     {
         if (ravenAnimation == null)
         {
-            ravenAnimation = FindFirstObjectByType<RavenAnimationTest>();
+            ravenAnimation = FindAnyObjectByType<RavenAnimationController>();
 
             if (ravenAnimation == null)
             {
@@ -85,7 +85,6 @@ public class ARInteractionManager : MonoBehaviour
             if (storyManager.CurrentState == StoryManager.StoryState.PlayerDecision)
             {
                 ravenInRange = true;
-                ravenAnimation.TriggerReaction();
                 storyManager.ChooseKeepCheese();
             }
         }
