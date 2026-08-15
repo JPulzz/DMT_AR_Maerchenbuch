@@ -21,13 +21,13 @@ Das Projekt verbindet Augmented Reality mit 3D-Charakteranimation und einer zust
 5. Play Mode starten.
 
 ## Bedienung
-- Stage auf einer erkannten horizontalen Fläche platzieren.
-- Stage per Drag verschieben.
+- Stage auf einer erkannten horizontalen Fläche mit Linksklick/Touch platzieren.
+- Stage per Drag (Klick halten und ziehen) auf der aktuellen Plane verschieben.
 - Rotation und Skalierung über die Slider anpassen.
 - Lock Stage sperrt die Stage und startet die Geschichte.
 - Durch Klick auf die Dialogbox wird die Story fortgesetzt.
 - Bei der finalen Entscheidung kann der Rabe entweder angetippt oder durch Annäherung beeinflusst werden.
-- Unlock Stage erlaubt erneut Änderungen an der Stage.
+- Unlock Stage erlaubt erneut Änderungen an der Stage, setzt die Story allerdings zurück.
 - Reset Stage entfernt die aktuelle Stage.
 
 ## Umgesetzte Funktionen
